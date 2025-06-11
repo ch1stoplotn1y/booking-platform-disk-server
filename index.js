@@ -34,6 +34,7 @@ app.use(
             "http://localhost:5173",
             "http://sh4rk07h.beget.tech",
             "https://sh4rk07h.beget.tech",
+            "http://82.202.129.86/",
         ],
         credentials: true,
     })
