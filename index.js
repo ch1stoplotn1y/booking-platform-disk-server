@@ -34,11 +34,12 @@ app.use(
             "http://localhost:5173",
             "http://sh4rk07h.beget.tech",
             "https://sh4rk07h.beget.tech",
-            "http://82.202.129.86/",
+            "http://82.202.129.86",
         ],
         credentials: true,
     })
 );
+app.options("*", cors());
 app.use(express.json());
 app.use(cookieParser());
 app.use("/static", express.static(resolve(__dirname, "static")));
