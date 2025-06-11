@@ -28,7 +28,7 @@ const PORT = process.env.PORT;
 
 const app = express();
 app.options("*", cors());
-app.use(cors());
+app.use(cors({ credentials: true }));
 app.use(express.json());
 app.use(cookieParser());
 app.use("/static", express.static(resolve(__dirname, "static")));
