@@ -27,19 +27,8 @@ const __dirname = dirname(fileURLToPath(import.meta.url));
 const PORT = process.env.PORT;
 
 const app = express();
-
-app.use(
-    cors({
-        origin: [
-            "http://localhost:5173",
-            "http://sh4rk07h.beget.tech",
-            "https://sh4rk07h.beget.tech",
-            "http://82.202.129.86",
-        ],
-        credentials: true,
-    })
-);
 app.options("*", cors());
+app.use(cors());
 app.use(express.json());
 app.use(cookieParser());
 app.use("/static", express.static(resolve(__dirname, "static")));
