@@ -61,11 +61,8 @@ class AuthController {
                 const token = generateJwt(user.id, user.role);
                 return res
                     .cookie("token", token, {
-                        secure: true,
-                        sameSite:
-                            process.env.NODE_ENV === "production"
-                                ? "none"
-                                : "lax",
+                        secure: false,
+                        sameSite: "lax",
                     })
                     .json(user, token);
             }
