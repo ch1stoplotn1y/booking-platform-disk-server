@@ -27,7 +27,7 @@ const __dirname = dirname(fileURLToPath(import.meta.url));
 const PORT = process.env.PORT;
 
 const app = express();
-app.use(cors({ credentials: true }));
+app.use(cors({ origin: "http://82.202.129.86", credentials: true }));
 app.use(express.json());
 app.use(cookieParser());
 app.use("/static", express.static(resolve(__dirname, "static")));
