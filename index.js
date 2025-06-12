@@ -27,7 +27,6 @@ const __dirname = dirname(fileURLToPath(import.meta.url));
 const PORT = process.env.PORT;
 
 const app = express();
-app.options("*", cors());
 app.use(cors({ credentials: true }));
 app.use(express.json());
 app.use(cookieParser());
