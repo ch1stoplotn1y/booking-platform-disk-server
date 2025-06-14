@@ -40,7 +40,7 @@ class UserController {
                 attributes: {
                     exclude: ["password"],
                 },
-                include: [{ model: Booking }],
+                include: [{ model: Booking }, { model: Property }],
             });
             if (!user) {
                 return next(ApiError.badRequest("Пользователь не найден"));
