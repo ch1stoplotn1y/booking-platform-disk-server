@@ -277,16 +277,18 @@ class PropertyController {
         }
     }
 
-    //Удаление объекта
     async deleteProperty(req, res, next) {
         try {
             const { id } = req.params;
 
-            const property = await Property.findOne({
-                where: { id, userId: req.user.id },
-            });
+            const property = await Property.findByPk(id);
 
             if (!property) {
+                return next(ApiError.badRequest("Объект не найден"));
+            }
+
+            // Проверка на принадлежность если не админ
+            if (req.user.role !== "admin" && property.userId !== req.user.id) {
                 return next(
                     ApiError.badRequest("Вы не можете удалить чужой объект")
                 );

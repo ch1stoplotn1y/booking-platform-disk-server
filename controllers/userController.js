@@ -132,13 +132,11 @@ class UserController {
 
     async deleteUser(req, res, next) {
         try {
-            const user = await User.findByPk(req.user.id);
+            const user = await User.findByPk(req.params.id);
             if (!user) {
                 return next(ApiError.badRequest("Не найден пользователь"));
             }
-
             await user.destroy();
-            res.clearCookie("refreshToken");
         } catch (error) {
             return next(ApiError.internal(error.message));
         }

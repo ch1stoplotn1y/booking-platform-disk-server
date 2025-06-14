@@ -132,19 +132,14 @@ class BookingController {
     async deleteBooking(req, res, next) {
         try {
             const { id } = req.params;
-
-            const booking = await Booking.findOne({
-                where: { id, userId: req.user.id },
-            });
+            const booking = await Booking.findByPk(id);
 
             if (!booking) {
-                return next(
-                    ApiError.badRequest("Вы не можете удалить чужой объект")
-                );
+                return next(ApiError.badRequest("Бронирование не найдено"));
             }
 
             await booking.destroy();
-            res.json({ message: "Объект удален" });
+            res.json({ message: "Бронирование удалено" });
         } catch (error) {
             return next(ApiError.internal(error.message));
         }
@@ -164,11 +159,9 @@ class BookingController {
 
             // Проверка дат
             if (new Date(checkInDate) >= new Date(checkOutDate)) {
-                return res
-                    .status(400)
-                    .json({
-                        message: "Дата выезда должна быть позже даты заезда",
-                    });
+                return res.status(400).json({
+                    message: "Дата выезда должна быть позже даты заезда",
+                });
             }
 
             await booking.update({
