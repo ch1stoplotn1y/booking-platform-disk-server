@@ -131,13 +131,49 @@ class UserController {
     }
 
     async deleteUser(req, res, next) {
+        //Отлогировал т.к. была ошибка которую не мог найти
+        console.log("=== DELETE USER REQUEST ===");
+        console.log("Headers:", req.headers);
+        console.log("Auth user:", req.user);
+        console.log("Params:", req.params);
+
         try {
-            const user = await User.findByPk(req.params.id);
+            const { id } = req.params;
+            console.log(`Attempting to delete user with ID: ${id}`);
+
+            const user = await User.findByPk(id);
+            console.log(
+                "User found:",
+                user
+                    ? {
+                          id: user.id,
+                          email: user.email,
+                          role: user.role,
+                      }
+                    : "NOT FOUND"
+            );
+
             if (!user) {
+                console.log("User not found error");
                 return next(ApiError.badRequest("Не найден пользователь"));
             }
+
+            if (req.user.id === user.id) {
+                console.log("Self-deletion attempt blocked");
+                return next(ApiError.badRequest("Нельзя удалить себя"));
+            }
+
+            console.log("Proceeding with deletion...");
             await user.destroy();
+            console.log("User successfully deleted");
+
+            res.json({ message: "Пользователь удален" }); //
         } catch (error) {
+            console.error("DELETE USER ERROR:", {
+                message: error.message,
+                stack: error.stack,
+                fullError: JSON.stringify(error),
+            });
             return next(ApiError.internal(error.message));
         }
     }
